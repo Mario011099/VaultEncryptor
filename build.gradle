@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id "jacoco"
+    id("org.sonarqube") version "5.0.0.4638"
+}
+
+group = 'com.datasec'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'io.github.jopenlibs:vault-java-driver:6.2.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
+    implementation 'org.jetbrains:annotations:26.0.2'}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "seguridad_data-sec_98ef4491-315e-4e96-8913-7f1dab2804c5"
+        property "sonar.projectName", "data-sec"
+        property "sonar.sourceEncoding", "UTF-8"
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+    }
+}
+test {
+    finalizedBy jacocoTestReport
+}
